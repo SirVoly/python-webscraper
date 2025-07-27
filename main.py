@@ -1,6 +1,7 @@
 import sys
 from async_crawler import crawl_site_async
 from asyncio import run
+from report import print_report
 
 async def main_async():
     if (len(sys.argv) < 2):
@@ -24,8 +25,8 @@ async def main_async():
     
     try:
         pages = await crawl_site_async(base_url, max_concurrency, max_pages)
-        for p in pages:
-            print(f"{p} is linked {pages[p]} times.")
+        
+        print_report(pages, base_url)
     except Exception as e:
         print(f"Error crawling through webpage {base_url}: {str(e)}")
         sys.exit(1)
