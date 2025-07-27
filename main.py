@@ -1,5 +1,5 @@
 import sys
-from crawl import get_html
+from crawl import crawl_page, normalize_url
 
 def main():
     if (len(sys.argv) < 2):
@@ -8,10 +8,19 @@ def main():
     if (len(sys.argv) > 2):
         print("too many arguments provided")
         exit(1)
-    BASE_URL = sys.argv[1]
-    print(f"starting crawl of: {BASE_URL}")
+    base_url = sys.argv[1]
+    print(f"starting crawl of: {base_url}...")
     
-    print(get_html(BASE_URL))
+    try:
+        pages = {}
+        crawl_page(base_url, base_url, pages)
+        for p in pages:
+            print(f"{p} is linked {pages[p]} times.")
+    except Exception as e:
+        print(f"Error crawling through webpage {base_url}: {str(e)}")
+        sys.exit(1)
+
+    sys.exit(0)
 
 
 if __name__ == "__main__":
