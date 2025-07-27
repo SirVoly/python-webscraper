@@ -1,7 +1,8 @@
 import sys
-from crawl import crawl_page, normalize_url
+from async_crawler import crawl_site_async
+from asyncio import run
 
-def main():
+async def main_async():
     if (len(sys.argv) < 2):
         print("no website provided")
         exit(1)
@@ -13,7 +14,7 @@ def main():
     
     try:
         pages = {}
-        crawl_page(base_url, base_url, pages)
+        await crawl_site_async(base_url)
         for p in pages:
             print(f"{p} is linked {pages[p]} times.")
     except Exception as e:
@@ -24,4 +25,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run(main_async())
